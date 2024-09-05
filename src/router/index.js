@@ -1,22 +1,20 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Inicio from '../views/InicioView.vue'
-
-const routes = [
-  {
-    path: '/',
-    name: 'inicio',
-    component: Inicio
-  },
-  {
-    path: '/favoritos',
-    name: 'favoritos',
-    component: () => import('../views/FavoritosView.vue')
-  }
-]
+import InicioView from '../views/InicioView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes
+  routes: [
+    {
+      path: '/',
+      name: 'inicio',
+      component: InicioView
+    },
+    {
+      path: '/favoritos',
+      name: 'favoritos',
+      component: () => import('../views/FavoritosView.vue')
+    }
+  ]
 })
 
 export default router
