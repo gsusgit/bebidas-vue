@@ -1,7 +1,8 @@
-<script setup>
-  import { computed } from 'vue'
+  <script setup>
+  import { computed, ref } from 'vue'
   import { RouterLink, useRoute } from 'vue-router'
   import { useBebidasStore } from '@/stores/bebidas.js'
+  import Alerta from '@/components/Alerta.vue'
 
   const route = useRoute()
 
@@ -9,8 +10,21 @@
     return route.name === 'inicio'
   })
 
+  const error = ref('')
+
   const store = useBebidasStore()
-  console.log(store.categorias)
+
+  const handleSubmit = () => {
+    if (Object.values(store.terminosBusqueda).includes('')) {
+      error.value = 'Por favor, rellene todos los campos'
+      setTimeout(() => {
+        error.value = ''
+      }, 3000)
+
+    } else {
+      store.buscarRecetas()
+    }
+  }
 </script>
 
 <template>
@@ -48,6 +62,7 @@
       <form
           v-if="isHome"
           class="md:w-1/2 2xl:w-1/3 bg-orange-400 my-32 p-10 rounded-lg shadow space-y-6"
+          @submit.prevent="handleSubmit"
       >
         <div class="space-y-4">
           <label
@@ -61,6 +76,7 @@
               type="text"
               class="p-3 w-full rounded-md focus:outline-none"
               placeholder="Nombre o ingrediente: ej. vodka, tequila, etc"
+              v-model="store.terminosBusqueda.ingrediente"
           >
         </div>
         <div class="space-y-4">
@@ -74,14 +90,26 @@
               id="categoria"
               type="text"
               class="p-3 w-full rounded-md focus:outline-none"
+              v-model="store.terminosBusqueda.categoria"
           >
             <option value="">Seleccionar</option>
+            <option
+                v-for="categoria in store.categorias"
+                :key="categoria.strCategory"
+                :value="categoria.strCategory"
+            >
+              {{ categoria.strCategory }}
+            </option>
           </select>
         </div>
         <input
             type="submit"
             class="p-3 bg-orange-800 hover:bg-orange-900 cursor-pointer text-white font-extrabold w-full rounded-lg uppercase"
             value="Buscar cocktails"/>
+        <Alerta
+            v-if="error !== ''"
+            :mensaje="error"
+        />
       </form>
     </div>
   </header>
