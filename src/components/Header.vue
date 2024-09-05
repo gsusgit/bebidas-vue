@@ -11,7 +11,6 @@
 
   const store = useBebidasStore()
   console.log(store.categorias)
-  // const { categorias } = useBebidasStore()
 </script>
 
 <template>
