@@ -3,6 +3,7 @@
   import { RouterLink, useRoute } from 'vue-router'
   import { useBebidasStore } from '@/stores/bebidas.js'
   import Alerta from '@/components/Alerta.vue'
+  import BotonCargando from '@/components/BotonCargando.vue'
 
   const route = useRoute()
 
@@ -20,7 +21,6 @@
       setTimeout(() => {
         error.value = ''
       }, 3000)
-
     } else {
       store.buscarRecetas()
     }
@@ -32,7 +32,9 @@
       class="bg-slate-800"
       :class="{header : isHome}"
   >
-    <div class="mx-auto container px-5 py-16">
+    <div
+        :class="[isHome ? 'py-16' : 'py-8']"
+        class="mx-auto container px-5">
       <div class="flex justify-between items-center">
         <div>
           <RouterLink :to="{name: 'inicio'}">
@@ -102,13 +104,15 @@
             </option>
           </select>
         </div>
-        <input
+        <BotonCargando v-if="store.mostrarBotonCargando"/>
+        <input v-else
             type="submit"
             class="p-3 bg-orange-800 hover:bg-orange-900 cursor-pointer text-white font-extrabold w-full rounded-lg uppercase"
-            value="Buscar cocktails"/>
+            value="Buscar recetas"/>
         <Alerta
             v-if="error !== ''"
             :mensaje="error"
+            :color="'dark'"
         />
       </form>
     </div>

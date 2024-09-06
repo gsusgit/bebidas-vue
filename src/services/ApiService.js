@@ -5,6 +5,9 @@ export default {
         return api('/list.php?c=list')
     },
     buscarRecetas({categoria, ingrediente}) {
-        return api(`filter.php?c=${categoria}&i=${ingrediente}`)
+        return api(`/filter.php?c=${categoria}&i=${ingrediente}`)
+    },
+    detallesReceta(id) {
+        return api(`/lookup.php?i=${id}`)
     }
 }
