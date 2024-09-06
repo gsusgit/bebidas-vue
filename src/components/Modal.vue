@@ -33,7 +33,7 @@
       :class="store.mostrarModal ? '' : 'hidden'"
       @click.self="store.cerrarModal"
       class="fixed z-50 inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4 ">
-    <div class="relative top-40 mx-auto shadow-xl rounded-md max-w-md">
+    <div class="relative top-10 mx-auto shadow-xl rounded-md max-w-md">
       <div class="relative bg-white rounded-lg shadow">
         <div class="p-4 md:p-5">
           <img class="rounded-t-lg" :src="store.detallesReceta[0].strDrinkThumb" :alt="'Imagen ' + store.detallesReceta[0].strDrink" />
