@@ -19,9 +19,23 @@ export const useBebidasStore = defineStore('bebidas', () => {
     const mensajeAlerta = ref('')
 
     onMounted(async function () {
+        const storage = localStorage.getItem('vuecocktails')
+        if (storage) {
+            favoritos.value = JSON.parse(localStorage.getItem('vuecocktails'))
+        }
         const {data: {drinks}} = await ApiService.obtenerCategorias()
         categorias.value = drinks
     })
+
+    watch(favoritos, () => {
+        guardarLocalStorage()
+    }, {
+        deep: true
+    })
+
+    function guardarLocalStorage() {
+        localStorage.setItem('vuecocktails', JSON.stringify(favoritos.value))
+    }
 
     async function buscarRecetas() {
         mostrarBotonCargando.value = true
